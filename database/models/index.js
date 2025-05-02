@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const envConfigs = require('../config/config'); 
+const envConfigs = require('../config/config');
 
 const basename = path.basename(module.filename); 
 const env = process.env.NODE_ENV || 'development';
@@ -10,7 +10,10 @@ const db = {};
 
 let sequelize;
 if (config.url) {
-  sequelize = new Sequelize(config.url, config);
+  sequelize = new Sequelize(config.url, {
+    dialect: 'postgres',
+    dialectOptions: config.dialectOptions
+  });
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
@@ -34,4 +37,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db; 
+module.exports = db;
