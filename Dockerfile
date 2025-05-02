@@ -1,17 +1,13 @@
-FROM debian:bullseye
-RUN apt-get update
+FROM node:18-bullseye
 
-RUN apt-get install -y curl make g++
+WORKDIR /app
 
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
-RUN apt-get install -y nodejs
-
-ADD . /
+COPY package*.json ./
 RUN npm install
 
-EXPOSE 8080
+COPY . .
 
-CMD  ["node", "index.js"]
+EXPOSE 3311
+EXPOSE 80
 
-
-
+CMD ["node", "index.js"]
